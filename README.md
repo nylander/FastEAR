@@ -1,6 +1,6 @@
 # EAR - Extract Alignment Regions
 
-- Last modified: Sun Apr 26, 2020  12:54AM
+- Last modified: Sun Apr 26, 2020  12:56AM
 - Sign: JN
 
 ## Description
@@ -41,7 +41,7 @@ and faidx. For faidx, I tried both the python version, pyfaidx
 original version from samtools ([http://www.htslib.org/](http://www.htslib.org/)).
 Specifically, I used samtools v.1.7 from Ubuntu 18.04 repositories (note that
 the syntax varies sometimes extensively between samtools versions).
-Finally, put the ear-script(s) in your PATH (e.g., `cp ear_samtools.sh ~/bin/`).
+Finally, put the ear-script(s) in your PATH (e.g., `cp ear_*.sh ~/bin/`).
 
 ## Timings 
 
