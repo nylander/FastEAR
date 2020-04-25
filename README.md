@@ -1,6 +1,6 @@
 # EAR - Extract Alignment Regions
 
-- Last modified: Sun Apr 26, 2020  12:50AM
+- Last modified: Sun Apr 26, 2020  12:52AM
 - Sign: JN
 
 ## Description
@@ -66,7 +66,11 @@ extracted 4,818 alignments (on a GNU/Linux system with two Intel Xeon Silver
 
 Even with repeated runs, samtools seems to be more efficient.
 
-### License and Copyright
+## Disclaimer
+
+Currently in beta version, with minimal error checking. *Caveat emptor!*
+
+## License and Copyright
 
 Copyright (C) 2020 Johan Nylander <johan.nylander\@nrm.se>.
 Distributed under terms of the [MIT license](LICENSE).
