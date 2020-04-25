@@ -1,28 +1,40 @@
 # EAR - Extract Alignment Regions
 
-- Last modified: Sun Apr 26, 2020  12:19AM
+- Last modified: Sun Apr 26, 2020  12:50AM
 - Sign: JN
 
 ## Description
 
 Shell (bash) scripts for extracting regions from a fasta-formatted nucleotide
 alignment based on the description of ranges in a [partitions
-file](#example-partitions-file). The script act as a wrapper for the main
-software that performs the extraction: **faidx**. **GNU parallel** is used to
-do the extraction in parallel.
+file](#example-partitions-file). The string in the first column of the
+partitions file will be used as the stem of the output file name, and the
+suffix `.fas` will be added. For example: `Apa.fas`. The output file will
+contain all fasta entries in the input fasta file, but only with sequence
+positions as specified after the equal sign in the partitions file.
+
+The scripts act as a wrapper for the main software that performs the
+extraction: faidx. GNU parallel is used for doing the extraction in parallel.
+
+Currently two versions of the script is provied, differing in which version of
+faidx that is used (see [Requirements and
+Installation](#requirements-and-installation)).
 
 ## Usage
 
     $ ./ear_pyfaidx.sh data/fasta.fas data/partitions.txt
     $ ./ear_samtools.sh data/fasta.fas data/partitions.txt
 
-## [Example partitions file](data/partitions.txt)
+## Example partitions file
 
     Apa = 1-100
     Bpa = 101-200
     Cpa = 201-300
     Dpa = 301-400
     Epa = 401-484
+
+The string in the first column will be used as the stem of the file name,
+and the suffix `.fas` will be added. For example: `Apa.fas`.
 
 ## Requirements and Installation
 
