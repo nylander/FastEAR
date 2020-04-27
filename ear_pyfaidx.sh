@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # EAR - Axtract Alignment Regions
-# Last modified: Sun Apr 26, 2020  12:21AM
+# Last modified: mån apr 27, 2020  09:50
 # Usage:
 #    ./ear_pyfaidx.sh fasta.fas partitions.txt
 # Description:
@@ -64,7 +64,7 @@ function do_the_faidx () {
     echo -e "Writing pos ${pos} to ${name}.fas";
     faidx \
         --no-coords \
-        --bed <(grep '>' "${fas}" | sed -e 's/>//' -e "s/$/ ${start} ${stop}/") \
+        --bed <(grep '>' "${fas}" | sed -e 's/>//' -e 's/ .*//' -e "s/$/ ${start} ${stop}/") \
         -o "${name}".fas \
         "${fas}"
 }
