@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # EAR - Extract Alignment Regions
-# Last modified: Sun Apr 26, 2020  12:22AM
+# Last modified: mån apr 27, 2020  12:17
 # Usage:
-#    ./ear_samtools.sh fasta.fas partitions.txt
+#    ./ear_samtools-1.7.sh fasta.fas partitions.txt
 # Description:
 #     Extract alignments regions defined in partitions.txt
 #     to new files from fasta.fas.
@@ -13,6 +13,9 @@
 #     Cpa = 201-300
 # Requirements:
 #     samtools (v.1.7), and GNU parallel
+# Notes:
+#     The script will only use the first string
+#     (no white space) as output header.
 # License and Copyright:
 #     Copyright (C) 2020 Johan Nylander (nylander)
 #     <johan.nylander@nrm.se>.
@@ -35,6 +38,12 @@ else
 fi
 
 command -v samtools > /dev/null 2>&1 || { echo >&2 "Error: samtools not found."; exit 1; }
+
+sversion=$(samtools --version | perl -ne 'print $1 if /^samtools\s+([\.\d]+)/')
+if [ ! "${sversion}" == "1.7" ] ; then
+    echo "Error: requires samtools v1.7"
+    exit 1
+fi
 
 echo -n "Creating faidx index..."
 
@@ -67,7 +76,7 @@ function do_the_faidx () {
     echo -e "Writing pos ${pos} to ${name}.fas";
 
     samtools faidx "${fas}" \
-        $(grep '>' "${fas}" | sed -e 's/>//g' -e "s/$/:${newpos}/" | tr '\n' ' ') | \
+        $(grep '>' "${fas}" | sed -e 's/>//g' -e 's/ .*//' -e "s/$/:${newpos}/" | tr '\n' ' ') | \
         sed "s/:${newpos}$//" > "${name}".fas
 }
 
