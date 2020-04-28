@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # EAR - Extract Alignment Regions
-# Last modified: mån apr 27, 2020  12:17
+# Last modified: tis apr 28, 2020  11:09
 # Usage:
 #    ./ear_samtools-1.7.sh fasta.fas partitions.txt
 # Description:
@@ -60,6 +60,9 @@ else
     exit 1
 fi
 
+headers=$(grep '>' "${fastafile}" | sed -e 's/>//g' -e 's/ .*//' | tr '\n' ' ')
+export headers
+
 function do_the_faidx () {
     name=$1
     pos=$2
@@ -74,12 +77,9 @@ function do_the_faidx () {
     fi
     newpos="${start}-${stop}"
     echo -e "Writing pos ${pos} to ${name}.fas";
-
-    samtools faidx "${fas}" \
-        $(grep '>' "${fas}" | sed -e 's/>//g' -e 's/ .*//' -e "s/$/:${newpos}/" | tr '\n' ' ') | \
+    samtools faidx "${fas}" $(sed "s/ /:"${newpos}" /g" <<< "${headers}") | \
         sed "s/:${newpos}$//" > "${name}".fas
 }
-
 export -f do_the_faidx
 
 parallel -a "${partfile}" --colsep '=' do_the_faidx {1} {2} "${fastafile}" 
