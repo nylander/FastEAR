@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # EAR - Extract Alignment Regions
-# Last modified: tis apr 28, 2020  12:18
+# Last modified: tis apr 28, 2020  01:16
 # Usage:
 #    ./ear_samtools-1.10.sh fasta.fas partitions.txt
 # Description:
@@ -14,8 +14,8 @@
 # Requirements:
 #     samtools (v1.10), and GNU parallel
 # License and Copyright:
-#     Copyright (C) 2020 Johan Nylander (nylander)
-#     <johan.nylander@nrm.se>.
+#     Copyright (C) 2020 Johan Nylander
+#     <johan.nylander\@nrm.se>.
 #     Distributed under terms of the MIT license. 
 
 if [[ -n "$1" && -n "$2" ]] ; then

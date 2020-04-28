@@ -1,6 +1,6 @@
 # EAR - Extract Alignment Regions
 
-- Last modified: mån apr 27, 2020  12:46
+- Last modified: tis apr 28, 2020  01:14
 - Sign: JN
 
 ## Description
@@ -47,8 +47,12 @@ and faidx. For faidx, I tried both the python version, pyfaidx
 ([https://pypi.org/project/pyfaidx](https://pypi.org/project/pyfaidx)), and the
 original version from samtools
 ([https://github.com/samtools/samtools](https://github.com/samtools/samtools)).
+Samtools v1.7 is available from, e.g., Ubuntu Linux repositories:
+
+    $ sudo apt install samtools
+
 The syntax for samtools faidx have changed between minor samtools versions, and
-there are two versions of the ear-script supplied; one for samtools v1.7, an
+there are two versions of the ear-script supplied; one for samtools v1.7, and
 one for v1.10.
 
 Finally, put the ear-script(s) in your PATH (e.g., `cp ear_*.sh ~/bin/`).
@@ -59,17 +63,45 @@ From a fasta file with 146 sequences, each with length 6,180,000 bp, we
 extracted 4,818 alignments (on a GNU/Linux system with two Intel Xeon Silver
 4214 CPU @ 2.20GHz, 48 cores in total):
 
-    #  ear pyfaidx v.0.5.8
-    $ time ear_pyfaidx.sh NT.fas NT_partitions.txt
-    real    1m44,919s
-    user    27m23,834s
-    sys     39m20,250s
+#### Using GNU parallel
 
-    # ear samtools faidx v.1.7
-    $ time ear_samtools-1.7.sh NT.fas NT_partitions.txt
-    real    1m12,592s
-    user    8m24,538s
-    sys     45m36,692s
+    #  ear pyfaidx v.0.5.8 parallel
+    $ time ear_pyfaidx.sh data.fas partitions.txt
+    real    0m47,499s
+    user    16m44,924s
+    sys     3m8,175s
+
+    # ear samtools faidx v.1.7 parallel
+    $ time ear_samtools-1.7.sh data.fas partitions.txt
+    real    0m19,714s
+    user    1m43,326s
+    sys     1m18,667s
+
+    # ear samtools faidx v.1.10 parallel
+    $ time ear_samtools-1.10.sh data.fas partitions.txt
+    real    0m20,172s
+    user    1m31,063s
+    sys     1m12,016s
+
+#### Using a "while read"-loop over the partitions file
+
+    #  ear pyfaidx v.0.5.8 serial
+    $ time ear_pyfaidx.serial.sh data.fas partitions.txt
+    real    11m16,616s
+    user    9m50,814s
+    sys     2m11,124s
+
+    # ear samtools faidx v.1.7 serial
+    $ time ear_samtools-1.7.serial.sh data.fas partitions.txt
+    real    2m2,562s
+    user    1m33,131s
+    sys     0m53,938s
+
+    # ear samtools faidx v.1.10 serial
+    $ time ear_samtools-1.10.serial.sh data.fas partitions.txt
+    real    1m47,825s
+    user    1m18,883s
+    sys     0m52,152s
 
 ## Disclaimer
 

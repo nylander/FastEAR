@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # EAR - Axtract Alignment Regions
-# Last modified: tis apr 28, 2020  01:12
+# Last modified: tis apr 28, 2020  01:16
 # Usage:
 #    ./ear_pyfaidx.sh fasta.fas partitions.txt
 # Description:
@@ -15,7 +15,7 @@
 #     faidx (pyfaidx), and GNU parallel
 # License and Copyright:
 #     Copyright (C) 2020 Johan Nylander
-#     <johan.nylander@nrm.se>.
+#     <johan.nylander\@nrm.se>.
 #     Distributed under terms of the MIT license. 
 
 if [[ -n "$1" && -n "$2" ]] ; then
