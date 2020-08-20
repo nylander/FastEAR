@@ -1,6 +1,6 @@
-# EAR - Extract Alignment Regions
+# FastEAR - Fast(er) Extraction of Alignment Regions
 
-- Last modified: tis apr 28, 2020  01:14
+- Last modified: tor aug 20, 2020  10:19
 - Sign: JN
 
 ## Description
@@ -26,11 +26,11 @@ Installation](#requirements-and-installation)).
 
 ## Usage
 
-    $ ./ear_<version>.sh fasta.fas partitions.txt
+    $ ./fastear_<version>.sh fasta.fas partitions.txt
 
 Example:
 
-    $ ./ear_samtools-1.7.sh data/fasta.fas data/partitions.txt
+    $ ./fastear_samtools-1.7.sh data/fasta.fas data/partitions.txt
 
 ## Example partitions file
 
@@ -55,7 +55,7 @@ The syntax for samtools faidx have changed between minor samtools versions, and
 there are two versions of the ear-script supplied; one for samtools v1.7, and
 one for v1.10.
 
-Finally, put the ear-script(s) in your PATH (e.g., `cp ear_*.sh ~/bin/`).
+Finally, put the fastear-script(s) in your PATH (e.g., `cp fastear_*.sh ~/bin/`).
 
 ## Timings 
 
@@ -65,40 +65,40 @@ extracted 4,818 alignments (on a GNU/Linux system with two Intel Xeon Silver
 
 #### Using GNU parallel
 
-    #  ear pyfaidx v.0.5.8 parallel
-    $ time ear_pyfaidx.sh data.fas partitions.txt
+    #  fastear pyfaidx v.0.5.8 parallel
+    $ time fastear_pyfaidx.sh data.fas partitions.txt
     real    0m47,499s
     user    16m44,924s
     sys     3m8,175s
 
-    # ear samtools faidx v.1.7 parallel
-    $ time ear_samtools-1.7.sh data.fas partitions.txt
+    # fastear samtools faidx v.1.7 parallel
+    $ time fastear_samtools-1.7.sh data.fas partitions.txt
     real    0m19,714s
     user    1m43,326s
     sys     1m18,667s
 
-    # ear samtools faidx v.1.10 parallel
-    $ time ear_samtools-1.10.sh data.fas partitions.txt
+    # fastear samtools faidx v.1.10 parallel
+    $ time fastear_samtools-1.10.sh data.fas partitions.txt
     real    0m20,172s
     user    1m31,063s
     sys     1m12,016s
 
 #### Using a "while read"-loop over the partitions file
 
-    #  ear pyfaidx v.0.5.8 serial
-    $ time ear_pyfaidx.serial.sh data.fas partitions.txt
+    #  fastear pyfaidx v.0.5.8 serial
+    $ time fastear_pyfaidx.serial.sh data.fas partitions.txt
     real    11m16,616s
     user    9m50,814s
     sys     2m11,124s
 
-    # ear samtools faidx v.1.7 serial
-    $ time ear_samtools-1.7.serial.sh data.fas partitions.txt
+    # fastear samtools faidx v.1.7 serial
+    $ time fastear_samtools-1.7.serial.sh data.fas partitions.txt
     real    2m2,562s
     user    1m33,131s
     sys     0m53,938s
 
-    # ear samtools faidx v.1.10 serial
-    $ time ear_samtools-1.10.serial.sh data.fas partitions.txt
+    # fastear samtools faidx v.1.10 serial
+    $ time fastear_samtools-1.10.serial.sh data.fas partitions.txt
     real    1m47,825s
     user    1m18,883s
     sys     0m52,152s
