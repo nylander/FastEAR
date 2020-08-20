@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# EAR - Extract Alignment Regions
-# Last modified: tis apr 28, 2020  01:16
+# FastEAR - Fast(er) Extracttion of Alignment Regions
+# Last modified: tor aug 20, 2020  10:21
 # Usage:
-#    ./ear_samtools-1.10.sh fasta.fas partitions.txt
+#    ./fastear_pyfaidx.sh fasta.fas partitions.txt
 # Description:
 #     Extract alignments regions defined in partitions.txt
 #     to new files from fasta.fas.
-# Example partitions file:
+# Example partitions.txt:
 #     Apa = 1-100
 #     Bpa = 101-200
 #     Cpa = 201-300
 # Requirements:
-#     samtools (v1.10), and GNU parallel
+#     faidx (pyfaidx), and GNU parallel
 # License and Copyright:
 #     Copyright (C) 2020 Johan Nylander
 #     <johan.nylander\@nrm.se>.
@@ -34,17 +34,11 @@ else
     exit 1
 fi
 
-command -v samtools > /dev/null 2>&1 || { echo >&2 "Error: samtools not found."; exit 1; }
-
-sversion=$(samtools --version | perl -ne 'print $1 if /^samtools\s+([\.\d]+)/')
-if [ ! "${sversion}" == "1.10" ] ; then
-    echo "Error: requires samtools v1.10"
-    exit 1
-fi
+command -v faidx > /dev/null 2>&1 || { echo >&2 "Error: faidx not found."; exit 1; }
 
 echo -n "Creating faidx index..."
 
-samtools faidx "${fastafile}" &> "${fastafile}.faidx.log"
+faidx --no-output "${fastafile}"  > "${fastafile}.faidx.log" 2>&1
 
 if [ $? -eq 0 ] ; then
     echo " done"
@@ -69,17 +63,14 @@ function do_the_faidx () {
     IFS=- read -a coords <<< "${pos}"
     start="${coords[0]}"
     stop="${coords[1]}"
-    if [[ "${start}" -eq 1 ]] ; then
-        start=$(( start - 1 ))
-    fi
-    newpos="${start}-${stop}"
+    start=$(( start - 1 ))
     echo -e "Writing pos ${pos} to ${name}.fas";
-
-    samtools faidx "${fas}" \
-        -r <(sed -e "s/ /:"${newpos}"\n/g" <<< "${headers}" | sed '/^$/d') | \
-        sed -e "s/:${newpos}$//" > "${name}".fas
+    faidx \
+        --no-coords \
+        --bed <(sed -e "s/ / "${start}" "${stop}"\n/g" <<< "${headers}" | sed '/^$/d') \
+        -o "${name}".fas \
+        "${fas}"
 }
-
 export -f do_the_faidx
 
 parallel -a "${partfile}" --colsep '=' do_the_faidx {1} {2} "${fastafile}" 

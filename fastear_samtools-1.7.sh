@@ -1,18 +1,21 @@
 #!/bin/bash
 
-# EAR - Axtract Alignment Regions
-# Last modified: tis apr 28, 2020  01:16
+# FastEAR - Fast(er) Extraction of Alignment Regions
+# Last modified: tor aug 20, 2020  10:23
 # Usage:
-#    ./ear_pyfaidx.sh fasta.fas partitions.txt
+#    ./fastear_samtools-1.7.sh fasta.fas partitions.txt
 # Description:
 #     Extract alignments regions defined in partitions.txt
 #     to new files from fasta.fas.
-# Example partitions.txt:
+# Example partitions file:
 #     Apa = 1-100
 #     Bpa = 101-200
 #     Cpa = 201-300
 # Requirements:
-#     faidx (pyfaidx), and GNU parallel
+#     samtools (v.1.7), and GNU parallel
+# Notes:
+#     The script will only use the first string
+#     (no white space) as output header.
 # License and Copyright:
 #     Copyright (C) 2020 Johan Nylander
 #     <johan.nylander\@nrm.se>.
@@ -34,11 +37,17 @@ else
     exit 1
 fi
 
-command -v faidx > /dev/null 2>&1 || { echo >&2 "Error: faidx not found."; exit 1; }
+command -v samtools > /dev/null 2>&1 || { echo >&2 "Error: samtools not found."; exit 1; }
+
+sversion=$(samtools --version | perl -ne 'print $1 if /^samtools\s+([\.\d]+)/')
+if [ ! "${sversion}" == "1.7" ] ; then
+    echo "Error: requires samtools v1.7"
+    exit 1
+fi
 
 echo -n "Creating faidx index..."
 
-faidx --no-output "${fastafile}"  > "${fastafile}.faidx.log" 2>&1
+samtools faidx "${fastafile}" > "${fastafile}.fai" 2> "${fastafile}.faidx.log"
 
 if [ $? -eq 0 ] ; then
     echo " done"
@@ -63,13 +72,13 @@ function do_the_faidx () {
     IFS=- read -a coords <<< "${pos}"
     start="${coords[0]}"
     stop="${coords[1]}"
-    start=$(( start - 1 ))
+    if [[ "${start}" -eq 1 ]] ; then
+        start=$(( start - 1 ))
+    fi
+    newpos="${start}-${stop}"
     echo -e "Writing pos ${pos} to ${name}.fas";
-    faidx \
-        --no-coords \
-        --bed <(sed -e "s/ / "${start}" "${stop}"\n/g" <<< "${headers}" | sed '/^$/d') \
-        -o "${name}".fas \
-        "${fas}"
+    samtools faidx "${fas}" $(sed "s/ /:"${newpos}" /g" <<< "${headers}") | \
+        sed "s/:${newpos}$//" > "${name}".fas
 }
 export -f do_the_faidx
 
