@@ -1,6 +1,6 @@
 # FastEAR - Fast(er) Extraction of Alignment Regions
 
-- Last modified: tor aug 20, 2020  10:19
+- Last modified: mån aug 24, 2020  12:27
 - Sign: JN
 
 ## Description
@@ -52,7 +52,7 @@ Samtools v1.7 is available from, e.g., Ubuntu Linux repositories:
     $ sudo apt install samtools
 
 The syntax for samtools faidx have changed between minor samtools versions, and
-there are two versions of the ear-script supplied; one for samtools v1.7, and
+there are two versions of the fastear-script supplied; one for samtools v1.7, and
 one for v1.10.
 
 Finally, put the fastear-script(s) in your PATH (e.g., `cp fastear_*.sh ~/bin/`).
