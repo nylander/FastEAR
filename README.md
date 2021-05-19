@@ -1,6 +1,6 @@
 # FastEAR - Fast(er) Extraction of Alignment Regions
 
-- Last modified: ons maj 19, 2021  04:50
+- Last modified: ons maj 19, 2021  05:21
 - Sign: JN
 
 ## Description
@@ -92,6 +92,7 @@ extracted 4,818 alignments (on a GNU/Linux system with two Intel Xeon Silver
     sys     1m12,016s
 
     # fastear bamtools parallel
+    $ time fastear_bedtools.sh data.fas partitions.txt
     real    0m19,784s
     user    1m3,445s
     sys     0m53,333s
