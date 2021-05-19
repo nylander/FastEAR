@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # FastEAR - Fast(er) Extraction of Alignment Regions
-# Last modified: ons maj 19, 2021  03:57
+# Last modified: ons maj 19, 2021  04:16
 # Usage:
 #    ./fastear_bedtools.sh fasta.fas partitions.txt
 # Description:
@@ -12,7 +12,7 @@
 #     Bpa = 101-200
 #     Cpa = 201-300
 # Requirements:
-#     bedtools (v2.27.1), and GNU parallel
+#     bedtools (v2.27.1), samtools (v.1.10) and GNU parallel
 # Notes:
 #     The script will only use the first string
 #     (no white space) as output header.
@@ -38,11 +38,24 @@ else
 fi
 
 command -v bedtools > /dev/null 2>&1 || { echo >&2 "Error: bedtools not found."; exit 1; }
+command -v samtools > /dev/null 2>&1 || { echo >&2 "Error: samtools not found."; exit 1; }
 
 headers=$(grep '>' "${fastafile}" | sed -e 's/>//g' -e 's/ .*//' | tr '\n' ' ')
 export headers
 
 if [ ! -e "${fastafile}.fai" ]; then
+    echo -n "Creating faidx index..."
+    samtools faidx "${fastafile}" &> "${fastafile}.faidx.log"
+    if [ $? -eq 0 ] ; then
+        echo " done"
+        rm "${fastafile}.faidx.log"
+    else
+        echo ""
+        echo "Error: Could not create faidx index:"
+        cat "${fastafile}.faidx.log"
+        rm "${fastafile}.faidx.log"
+        exit 1
+    fi
     createdindexfile=1
 fi
 
