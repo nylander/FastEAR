@@ -1,6 +1,6 @@
 # FastEAR - Fast(er) Extraction of Alignment Regions
 
-- Last modified: mån aug 24, 2020  12:27
+- Last modified: ons maj 19, 2021  04:50
 - Sign: JN
 
 ## Description
@@ -24,13 +24,16 @@ Currently two versions of the script is provided, differing in which version of
 faidx used (see [Requirements and
 Installation](#requirements-and-installation)).
 
+*Update*: A script using bedtools for extraction is also provided (see [Requirements and
+Installation](#requirements-and-installation)).
+
 ## Usage
 
     $ ./fastear_<version>.sh fasta.fas partitions.txt
 
 Example:
 
-    $ ./fastear_samtools-1.7.sh data/fasta.fas data/partitions.txt
+    $ ./fastear_samtools-1.10.sh data/fasta.fas data/partitions.txt
 
 ## Example partitions file
 
@@ -47,7 +50,7 @@ and faidx. For faidx, I tried both the python version, pyfaidx
 ([https://pypi.org/project/pyfaidx](https://pypi.org/project/pyfaidx)), and the
 original version from samtools
 ([https://github.com/samtools/samtools](https://github.com/samtools/samtools)).
-Samtools v1.7 is available from, e.g., Ubuntu Linux repositories:
+Samtools v1.10 is available from, e.g., Ubuntu Linux repositories:
 
     $ sudo apt install samtools
 
@@ -55,9 +58,14 @@ The syntax for samtools faidx have changed between minor samtools versions, and
 there are two versions of the fastear-script supplied; one for samtools v1.7, and
 one for v1.10.
 
+In addition, if one wishes to use the "bedtools"-version, then `bedtools` needs
+to be installed (tested using v2.27). For example (on ubuntu):
+
+    $ sudo apt install bedtools
+
 Finally, put the fastear-script(s) in your PATH (e.g., `cp fastear_*.sh ~/bin/`).
 
-## Timings 
+## Timings
 
 From a fasta file with 146 sequences, each with length 6,180,000 bp, we
 extracted 4,818 alignments (on a GNU/Linux system with two Intel Xeon Silver
@@ -82,6 +90,12 @@ extracted 4,818 alignments (on a GNU/Linux system with two Intel Xeon Silver
     real    0m20,172s
     user    1m31,063s
     sys     1m12,016s
+
+    # fastear bamtools parallel
+    real    0m19,784s
+    user    1m3,445s
+    sys     0m53,333s
+
 
 #### Using a "while read"-loop over the partitions file
 
@@ -109,5 +123,5 @@ Currently in beta version, with minimal error checking. *Caveat emptor!*
 
 ## License and Copyright
 
-Copyright (C) 2020 Johan Nylander <johan.nylander\@nrm.se>.
+Copyright (C) 2020, 2021 Johan Nylander <johan.nylander\@nrm.se>.
 Distributed under terms of the [MIT license](LICENSE).
