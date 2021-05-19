@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # FastEAR - Fast(er) Extraction of Alignment Regions
-# Last modified: ons maj 19, 2021  02:15
+# Last modified: ons maj 19, 2021  03:57
 # Usage:
 #    ./fastear_bedtools.sh fasta.fas partitions.txt
 # Description:
@@ -57,7 +57,7 @@ function do_the_bedtools () {
     stop="${coords[1]}"
     echo -e "Writing pos ${pos} to ${name}.fas";
     bedtools getfasta -fi "${fas}" -fo "${name}".fas -name \
-        -bed <(for h in ${headers[@]}; do echo -e "${h}\t${start}\t${stop}\t${h}"; done) > "${name}.fas" 2> /dev/null
+        -bed <(for h in ${headers[@]}; do echo -e "${h}\t${start}\t${stop}\t${h}"; done) 2> /dev/null
 }
 export -f do_the_bedtools
 
