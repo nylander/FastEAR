@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# FastEAR - Fast(er) Extracttion of Alignment Regions
-# Last modified: tor aug 20, 2020  10:22
+# FastEAR - Fast(er) Extraction of Alignment Regions
+# Last modified: tis feb 22, 2022  06:15
 # Usage:
 #    ./fastear_samtools-1.10.sh fasta.fas partitions.txt
 # Description:
@@ -12,15 +12,17 @@
 #     Bpa = 101-200
 #     Cpa = 201-300
 # Requirements:
-#     samtools (v1.10), and GNU parallel
+#     samtools (v1.10 or above), and GNU parallel
 # License and Copyright:
-#     Copyright (C) 2020 Johan Nylander
+#     Copyright (C) 2020-2022 Johan Nylander
 #     <johan.nylander\@nrm.se>.
 #     Distributed under terms of the MIT license. 
 
+minversion="1.10"
+
 if [[ -n "$1" && -n "$2" ]] ; then
-    fastafile=$1
-    partfile=$2
+    fastafile="$1"
+    partfile="$2"
     if [ ! -e "${fastafile}" ]; then
         echo "Error: can not find ${fastafile}"
         exit 1
@@ -37,8 +39,14 @@ fi
 command -v samtools > /dev/null 2>&1 || { echo >&2 "Error: samtools not found."; exit 1; }
 
 sversion=$(samtools --version | perl -ne 'print $1 if /^samtools\s+([\.\d]+)/')
-if [ ! "${sversion}" == "1.10" ] ; then
-    echo "Error: requires samtools v1.10"
+#sversion=$(samtools --version | sed -n 's/samtools \(.*\)$/\1/p')
+
+function version_ge() {
+    test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" == "$1";
+}
+
+if ! version_ge "$sversion" "$minversion" ; then
+    echo "Error: requires samtools v$minversion or above"
     exit 1
 fi
 
@@ -76,13 +84,13 @@ function do_the_faidx () {
     echo -e "Writing pos ${pos} to ${name}.fas";
 
     samtools faidx "${fas}" \
-        -r <(sed -e "s/ /:"${newpos}"\n/g" <<< "${headers}" | sed '/^$/d') | \
+        -r <(sed -e "s/ /:""${newpos}""\n/g" <<< "${headers}" | sed '/^$/d') | \
         sed -e "s/:${newpos}$//" > "${name}".fas
 }
 
 export -f do_the_faidx
 
-parallel -a "${partfile}" --colsep '=' do_the_faidx {1} {2} "${fastafile}" 
+parallel -a "${partfile}" --colsep '=' do_the_faidx "{1}" "{2}" "${fastafile}" 
 
 rm "${fastafile}.fai"
 

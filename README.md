@@ -1,6 +1,6 @@
 # FastEAR - Fast(er) Extraction of Alignment Regions
 
-- Last modified: ons maj 19, 2021  05:21
+- Last modified: tis feb 22, 2022  05:28
 - Sign: JN
 
 ## Description
@@ -56,7 +56,7 @@ Samtools v1.10 is available from, e.g., Ubuntu Linux repositories:
 
 The syntax for samtools faidx have changed between minor samtools versions, and
 there are two versions of the fastear-script supplied; one for samtools v1.7, and
-one for v1.10.
+one for v1.10 (or above. Last tested with v1.15).
 
 In addition, if one wishes to use the "bedtools"-version, then `bedtools` needs
 to be installed (tested using v2.27). For example (on ubuntu):
@@ -124,5 +124,5 @@ Currently in beta version, with minimal error checking. *Caveat emptor!*
 
 ## License and Copyright
 
-Copyright (C) 2020, 2021 Johan Nylander <johan.nylander\@nrm.se>.
+Copyright (C) 2020, 2021, 202, 2022 Johan Nylander <johan.nylander\@nrm.se>.
 Distributed under terms of the [MIT license](LICENSE).
