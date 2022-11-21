@@ -1,6 +1,6 @@
 # FastEAR - Fast(er) Extraction of Alignment Regions
 
-- Last modified: tis feb 22, 2022  05:28
+- Last modified: mån nov 21, 2022  01:20
 - Sign: JN
 
 ## Description
@@ -124,5 +124,5 @@ Currently in beta version, with minimal error checking. *Caveat emptor!*
 
 ## License and Copyright
 
-Copyright (C) 2020, 2021, 202, 2022 Johan Nylander <johan.nylander\@nrm.se>.
+Copyright (C) 2020, 2021, 2022 Johan Nylander <johan.nylander\@nrm.se>.
 Distributed under terms of the [MIT license](LICENSE).
