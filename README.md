@@ -1,6 +1,6 @@
 # FastEAR - Fast(er) Extraction of Alignment Regions
 
-- Last modified: mån nov 21, 2022  01:20
+- Last modified: ons sep 11, 2024  02:53
 - Sign: JN
 
 ## Description
@@ -91,12 +91,11 @@ extracted 4,818 alignments (on a GNU/Linux system with two Intel Xeon Silver
     user    1m31,063s
     sys     1m12,016s
 
-    # fastear bamtools parallel
+    # fastear bedtools parallel
     $ time fastear_bedtools.sh data.fas partitions.txt
     real    0m19,784s
     user    1m3,445s
     sys     0m53,333s
-
 
 #### Using a "while read"-loop over the partitions file
 
@@ -118,11 +117,16 @@ extracted 4,818 alignments (on a GNU/Linux system with two Intel Xeon Silver
     user    1m18,883s
     sys     0m52,152s
 
+*Conclusions*: speed of extraction is faster using parallelization.
+In addition, different implementations differ in speed. From 
+the examples above, faidx from bedtools or samtools (v.1.10) seems
+preferable.
+
 ## Disclaimer
 
 Currently in beta version, with minimal error checking. *Caveat emptor!*
 
 ## License and Copyright
 
-Copyright (C) 2020, 2021, 2022 Johan Nylander <johan.nylander\@nrm.se>.
+Copyright (C) 2020-2024 Johan Nylander <johan.nylander\@nrm.se>.
 Distributed under terms of the [MIT license](LICENSE).
