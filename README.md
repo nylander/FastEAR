@@ -1,8 +1,5 @@
 # FastEAR - Fast(er) Extraction of Alignment Regions
 
-- Last modified: ons sep 11, 2024  02:53
-- Sign: JN
-
 ## Description
 
 Shell (bash) scripts for extracting regions from a fasta-formatted nucleotide
@@ -50,13 +47,13 @@ and faidx. For faidx, I tried both the python version, pyfaidx
 ([https://pypi.org/project/pyfaidx](https://pypi.org/project/pyfaidx)), and the
 original version from samtools
 ([https://github.com/samtools/samtools](https://github.com/samtools/samtools)).
-Samtools v1.10 is available from, e.g., Ubuntu Linux repositories:
+Samtools v1.10 (and later) is available from, e.g., Ubuntu Linux repositories:
 
     $ sudo apt install samtools
 
 The syntax for samtools faidx have changed between minor samtools versions, and
 there are two versions of the fastear-script supplied; one for samtools v1.7, and
-one for v1.10 (or above. Last tested with v1.15).
+one for v1.10 (or above. Last tested with v1.19).
 
 In addition, if one wishes to use the "bedtools"-version, then `bedtools` needs
 to be installed (tested using v2.27). For example (on ubuntu):
@@ -118,7 +115,7 @@ extracted 4,818 alignments (on a GNU/Linux system with two Intel Xeon Silver
     sys     0m52,152s
 
 *Conclusions*: speed of extraction is faster using parallelization.
-In addition, different implementations differ in speed. From 
+In addition, different implementations differ in speed. From
 the examples above, faidx from bedtools or samtools (v.1.10) seems
 preferable.
 
@@ -128,5 +125,5 @@ Currently in beta version, with minimal error checking. *Caveat emptor!*
 
 ## License and Copyright
 
-Copyright (C) 2020-2024 Johan Nylander <johan.nylander\@nrm.se>.
+Copyright (C) 2020-2026 Johan Nylander <johan.nylander\@nrm.se>.
 Distributed under terms of the [MIT license](LICENSE).
