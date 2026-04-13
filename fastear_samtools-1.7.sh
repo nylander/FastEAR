@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # FastEAR - Fast(er) Extraction of Alignment Regions
-# Last modified: tor aug 20, 2020  10:23
+# Last modified: 2026-04-13 16:37:13
 # Usage:
 #    ./fastear_samtools-1.7.sh fasta.fas partitions.txt
 # Description:
@@ -19,7 +19,7 @@
 # License and Copyright:
 #     Copyright (C) 2020 Johan Nylander
 #     <johan.nylander\@nrm.se>.
-#     Distributed under terms of the MIT license. 
+#     Distributed under terms of the MIT license.
 
 if [[ -n "$1" && -n "$2" ]] ; then
     fastafile=$1
@@ -72,9 +72,6 @@ function do_the_faidx () {
     IFS=- read -a coords <<< "${pos}"
     start="${coords[0]}"
     stop="${coords[1]}"
-    if [[ "${start}" -eq 1 ]] ; then
-        start=$(( start - 1 ))
-    fi
     newpos="${start}-${stop}"
     echo -e "Writing pos ${pos} to ${name}.fas";
     samtools faidx "${fas}" $(sed "s/ /:"${newpos}" /g" <<< "${headers}") | \
@@ -82,7 +79,7 @@ function do_the_faidx () {
 }
 export -f do_the_faidx
 
-parallel -a "${partfile}" --colsep '=' do_the_faidx {1} {2} "${fastafile}" 
+parallel -a "${partfile}" --colsep '=' do_the_faidx {1} {2} "${fastafile}"
 
 rm "${fastafile}.fai"
 

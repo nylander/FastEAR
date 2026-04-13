@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # FastEAR - Fast(er) Extraction of Alignment Regions
-# Last modified: tis feb 22, 2022  06:15
+# Last modified: 2026-04-13 16:35:19
 # Usage:
 #    ./fastear_samtools-1.10.sh fasta.fas partitions.txt
 # Description:
@@ -14,9 +14,9 @@
 # Requirements:
 #     samtools (v1.10 or above), and GNU parallel
 # License and Copyright:
-#     Copyright (C) 2020-2022 Johan Nylander
+#     Copyright (C) 2020-2026 Johan Nylander
 #     <johan.nylander\@nrm.se>.
-#     Distributed under terms of the MIT license. 
+#     Distributed under terms of the MIT license.
 
 minversion="1.10"
 
@@ -39,7 +39,6 @@ fi
 command -v samtools > /dev/null 2>&1 || { echo >&2 "Error: samtools not found."; exit 1; }
 
 sversion=$(samtools --version | perl -ne 'print $1 if /^samtools\s+([\.\d]+)/')
-#sversion=$(samtools --version | sed -n 's/samtools \(.*\)$/\1/p')
 
 function version_ge() {
     test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" == "$1";
@@ -77,9 +76,6 @@ function do_the_faidx () {
     IFS=- read -a coords <<< "${pos}"
     start="${coords[0]}"
     stop="${coords[1]}"
-    if [[ "${start}" -eq 1 ]] ; then
-        start=$(( start - 1 ))
-    fi
     newpos="${start}-${stop}"
     echo -e "Writing pos ${pos} to ${name}.fas";
 
@@ -90,7 +86,7 @@ function do_the_faidx () {
 
 export -f do_the_faidx
 
-parallel -a "${partfile}" --colsep '=' do_the_faidx "{1}" "{2}" "${fastafile}" 
+parallel -a "${partfile}" --colsep '=' do_the_faidx "{1}" "{2}" "${fastafile}"
 
 rm "${fastafile}.fai"
 
